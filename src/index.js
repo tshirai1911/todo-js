@@ -24,7 +24,8 @@ const onClickAdd = () => {
   const deleteButton = document.createElement("button");
   deleteButton.innerText = "削除";
   deleteButton.addEventListener("click", () => {
-    alert("削除");
+    const deleteTarget = deleteButton.parentNode;
+    document.getElementById("inconplete-list").removeChild(deleteTarget);
   });
 
   // divタグの子要素に各要素を生成

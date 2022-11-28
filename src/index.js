@@ -4,20 +4,54 @@ const onClickAdd = () => {
   // テキストボックスの値を取得し、初期化する。
   const inputText = document.getElementById("add-text").value;
   document.getElementById("add-text").value = "";
+  createIncompleteList(inputText);
+};
 
+// 未完了リストから削除する
+const deleteFromIncompleteList = (target) => {
+  document.getElementById("inconplete-list").removeChild(target);
+};
+
+// 未完了リストを追加する。
+const createIncompleteList = (text) => {
   // div生成
   const div = document.createElement("div");
   div.className = "list-row";
 
   // liタグ生成
   const li = document.createElement("li");
-  li.innerText = inputText;
+  li.innerText = text;
 
   // button(完了)タグ生成
   const completeButton = document.createElement("button");
   completeButton.innerText = "完了";
   completeButton.addEventListener("click", () => {
-    alert("完了");
+    // 親要素を取得
+    const completeTarget = completeButton.parentNode;
+    // TODOテキスト取得
+    const text = completeTarget.firstChild.innerText;
+
+    // 未完了リストから削除する
+    deleteFromIncompleteList(completeTarget);
+
+    // div生成
+    completeTarget.textContent = null;
+
+    // liタグ生成
+    const li = document.createElement("li");
+    li.innerText = text;
+
+    //button(もどす)タグ生成
+    const backButton = document.createElement("button");
+    backButton.innerText = "もどす";
+    backButton.addEventListener("click", () => {
+      alert("もどす");
+    });
+
+    completeTarget.appendChild(li);
+    completeTarget.appendChild(backButton);
+    // ulタグにdivタグを追加
+    document.getElementById("complete-list").appendChild(completeTarget);
   });
 
   // button(削除)タグ生成
@@ -25,7 +59,7 @@ const onClickAdd = () => {
   deleteButton.innerText = "削除";
   deleteButton.addEventListener("click", () => {
     const deleteTarget = deleteButton.parentNode;
-    document.getElementById("inconplete-list").removeChild(deleteTarget);
+    deleteFromIncompleteList(deleteTarget);
   });
 
   // divタグの子要素に各要素を生成
@@ -35,6 +69,10 @@ const onClickAdd = () => {
 
   // ulタグにdivタグを追加
   document.getElementById("inconplete-list").appendChild(div);
+};
+
+const backToIncompleteList = () => {
+  createIncompleteList("もどりました");
 };
 
 document

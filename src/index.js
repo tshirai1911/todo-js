@@ -13,14 +13,14 @@ const deleteFromIncompleteList = (target) => {
 };
 
 // 未完了リストを追加する。
-const createIncompleteList = (text) => {
+const createIncompleteList = (incompleteText) => {
   // div生成
   const div = document.createElement("div");
   div.className = "list-row";
 
   // liタグ生成
   const li = document.createElement("li");
-  li.innerText = text;
+  li.innerText = incompleteText;
 
   // button(完了)タグ生成
   const completeButton = document.createElement("button");
@@ -45,7 +45,12 @@ const createIncompleteList = (text) => {
     const backButton = document.createElement("button");
     backButton.innerText = "もどす";
     backButton.addEventListener("click", () => {
-      alert("もどす");
+      // 完了リストから削除
+      const deleteTarget = backButton.parentNode;
+      document.getElementById("complete-list").removeChild(deleteTarget);
+      // テキストを取得
+      const text = backButton.parentNode.firstChild.innerText;
+      createIncompleteList(text);
     });
 
     completeTarget.appendChild(li);
